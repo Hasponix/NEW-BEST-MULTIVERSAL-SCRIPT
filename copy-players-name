@@ -85,7 +85,10 @@ local function refreshPlayers()
         Btn.Position = UDim2.new(0, 5, 0, y)
         Btn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
         Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-        Btn.Text = player.Name
+
+        --// UPDATED TEXT
+        Btn.Text = player.DisplayName .. " (@" .. player.Name .. ")"
+
         Btn.Parent = Scroll
 
         local corner = Instance.new("UICorner", Btn)
@@ -109,7 +112,6 @@ Players.PlayerRemoving:Connect(refreshPlayers)
 RefreshBtn.MouseButton1Click:Connect(refreshPlayers)
 
 --// Open/Close UI
-local open = false
 ToggleButton.MouseButton1Click:Connect(function()
     MainFrame.Visible = not MainFrame.Visible
 end)
