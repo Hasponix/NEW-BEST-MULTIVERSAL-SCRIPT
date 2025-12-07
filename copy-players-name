@@ -1,0 +1,162 @@
+--// Services
+local Players = game:GetService("Players")
+local UIS = game:GetService("UserInputService")
+
+--// ScreenGui
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = Players.LocalPlayer:WaitForChild("PlayerGui")
+
+--// Toggle Button (draggable + open UI)
+local ToggleButton = Instance.new("TextButton")
+ToggleButton.Size = UDim2.new(0, 45, 0, 45)
+ToggleButton.Position = UDim2.new(0, 10, 0.5, -22)
+ToggleButton.Text = "UI"
+ToggleButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleButton.Parent = ScreenGui
+ToggleButton.ZIndex = 5
+
+local UICorner = Instance.new("UICorner", ToggleButton)
+UICorner.CornerRadius = UDim.new(1, 0)
+
+--// Main UI Frame
+local MainFrame = Instance.new("Frame")
+MainFrame.Size = UDim2.new(0, 220, 0, 230)
+MainFrame.Position = UDim2.new(0.5, -110, 0.5, -115)
+MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+MainFrame.Visible = false
+MainFrame.Parent = ScreenGui
+
+local UICorner2 = Instance.new("UICorner", MainFrame)
+UICorner2.CornerRadius = UDim.new(0, 12)
+
+--// Title
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, 0, 0, 28)
+Title.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+Title.Text = "Player List"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.Parent = MainFrame
+
+local UICorner3 = Instance.new("UICorner", Title)
+UICorner3.CornerRadius = UDim.new(0, 12)
+
+--// Scroll Frame
+local Scroll = Instance.new("ScrollingFrame")
+Scroll.Size = UDim2.new(1, -10, 1, -90)
+Scroll.Position = UDim2.new(0, 5, 0, 33)
+Scroll.BackgroundTransparency = 1
+Scroll.ScrollBarThickness = 6
+Scroll.CanvasSize = UDim2.new(0, 0, 0, 0)
+Scroll.Parent = MainFrame
+
+--// Refresh Button
+local RefreshBtn = Instance.new("TextButton")
+RefreshBtn.Size = UDim2.new(1, -20, 0, 28)
+RefreshBtn.Position = UDim2.new(0, 10, 1, -60)
+RefreshBtn.Text = "Refresh Players"
+RefreshBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+RefreshBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+RefreshBtn.Parent = MainFrame
+
+local UICorner4 = Instance.new("UICorner", RefreshBtn)
+UICorner4.CornerRadius = UDim.new(0, 8)
+
+--// Made By Label
+local Credit = Instance.new("TextLabel")
+Credit.Size = UDim2.new(1, 0, 0, 20)
+Credit.Position = UDim2.new(0, 0, 1, -25)
+Credit.BackgroundTransparency = 1
+Credit.Text = "Made by Xenfang"
+Credit.TextColor3 = Color3.fromRGB(180, 180, 180)
+Credit.Font = Enum.Font.SourceSansItalic
+Credit.TextScaled = true
+Credit.Parent = MainFrame
+
+--// Player refresh function
+local function refreshPlayers()
+    Scroll:ClearAllChildren()
+
+    local y = 0
+    for _, player in ipairs(Players:GetPlayers()) do
+        local Btn = Instance.new("TextButton")
+        Btn.Size = UDim2.new(1, -10, 0, 25)
+        Btn.Position = UDim2.new(0, 5, 0, y)
+        Btn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+        Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+        Btn.Text = player.Name
+        Btn.Parent = Scroll
+
+        local corner = Instance.new("UICorner", Btn)
+        corner.CornerRadius = UDim.new(0, 6)
+
+        Btn.MouseButton1Click:Connect(function()
+            if setclipboard then
+                setclipboard(player.Name)
+            end
+        end)
+
+        y += 28
+    end
+
+    Scroll.CanvasSize = UDim2.new(0, 0, 0, y)
+end
+
+refreshPlayers()
+Players.PlayerAdded:Connect(refreshPlayers)
+Players.PlayerRemoving:Connect(refreshPlayers)
+RefreshBtn.MouseButton1Click:Connect(refreshPlayers)
+
+--// Open/Close UI
+local open = false
+ToggleButton.MouseButton1Click:Connect(function()
+    MainFrame.Visible = not MainFrame.Visible
+end)
+
+UIS.InputBegan:Connect(function(key, gp)
+    if not gp and key.KeyCode == Enum.KeyCode.K then
+        MainFrame.Visible = not MainFrame.Visible
+    end
+end)
+
+--////////////////////////////////////////////////////
+--// DRAGGING SYSTEM (Toggle Button + Main Frame)
+--////////////////////////////////////////////////////
+
+local function makeDraggable(UI)
+    local dragging = false
+    local dragStart, startPos
+
+    UI.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or
+           input.UserInputType == Enum.UserInputType.Touch then
+
+            dragging = true
+            dragStart = input.Position
+            startPos = UI.Position
+
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+
+    UIS.InputChanged:Connect(function(input)
+        if dragging then
+            local delta = input.Position - dragStart
+            UI.Position = UDim2.new(
+                startPos.X.Scale,
+                startPos.X.Offset + delta.X,
+                startPos.Y.Scale,
+                startPos.Y.Offset + delta.Y
+            )
+        end
+    end)
+end
+
+-- Make both draggable
+makeDraggable(MainFrame)
+makeDraggable(ToggleButton)
