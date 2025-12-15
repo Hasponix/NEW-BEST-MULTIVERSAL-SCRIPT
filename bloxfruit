@@ -964,7 +964,7 @@ Credit.Font = Enum.Font.GothamBold
 Credit.TextStrokeTransparency = 0.3
 Credit.Parent = ScreenGui
 
-print("🧅 Onion13 Hub - Auto Prediction Version!")
+print("👾 Dark Monarch - Auto Prediction Version!")
 print("✅ Prediction Slider ถูกลบออกแล้ว")
 print("🎯 Aimbot คำนวณ Prediction อัตโนมัติตามระยะทาง!")
 print("📏 ระยะใกล้ (0-100m) = 1% Prediction")
